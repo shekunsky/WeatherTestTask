@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="WeatherByHoursCollectionViewCell" id="gTV-IL-0wX" customClass="WeatherByHoursCollectionViewCell" customModule="WeatherTestTask" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wek-xR-suz">
+                        <rect key="frame" x="30" y="0.0" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="imS-1b-TNx"/>
+                            <constraint firstAttribute="width" constant="40" id="tuI-vD-hzn"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="tjf-Bz-Jc1">
+                        <rect key="frame" x="0.0" y="46.5" width="100" height="43.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aia-6r-Er2">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ig3-O4-BEm">
+                                <rect key="frame" x="0.0" y="18" width="100" height="13.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0O-ez-nTC">
+                                <rect key="frame" x="0.0" y="31.5" width="100" height="12"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.11764705882352941" green="0.039215686274509803" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="tjf-Bz-Jc1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FgR-4i-NdC"/>
+                <constraint firstAttribute="trailing" secondItem="tjf-Bz-Jc1" secondAttribute="trailing" id="Ize-8I-I3Q"/>
+                <constraint firstItem="Wek-xR-suz" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Z59-Ic-1f8"/>
+                <constraint firstItem="Wek-xR-suz" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="gQ7-U2-yYJ"/>
+                <constraint firstAttribute="bottom" secondItem="tjf-Bz-Jc1" secondAttribute="bottom" constant="10" id="heo-Ie-kfF"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="dayLabel" destination="ig3-O4-BEm" id="5i4-Au-q76"/>
+                <outlet property="degreesLabel" destination="aia-6r-Er2" id="cK3-tS-LVo"/>
+                <outlet property="iconImageView" destination="Wek-xR-suz" id="h5L-zf-I3C"/>
+                <outlet property="timeLabel" destination="L0O-ez-nTC" id="h80-e6-72T"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>
