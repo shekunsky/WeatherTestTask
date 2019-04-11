@@ -11,6 +11,7 @@ import UIKit
 
 struct UserDefaultsConstants {
     static let kIsAppWasLaunchedBefore  = "kIsAppWasLaunchedBefore"
+    static let kCitiesDbIsInitialized  = "kCitiesDbIsInitialized"
     static let kIsCurrentCityWasSet = "kIsCurrentCityWasSet"
     static let kCurrentLocalCityId = "kCurrentLocalCityId"
 }
@@ -18,8 +19,9 @@ struct UserDefaultsConstants {
 struct NotificationsConstants {
     static let kReceivedPermissionForLocationsNotification  = "kReceivedPermissionForLocationsNotification"
     static let kFailedPermissionForLocationsNotification  = "kFailedPermissionForLocationsNotification"
-    static let kNotificationInternetAvailable = "kNotificationInternetAvailable"
-    static let kNotificationInternetDisabled = "kNotificationInternetDisabled"
+    static let kInternetAvailableNotification = "kInternetAvailableNotification"
+    static let kInternetDisabledNotification = "kInternetDisabledNotification"
+    static let kCitiesDbInitializedNotification = "kCitiesDbInitializedNotification"
 }
 
 struct ApiConstants {

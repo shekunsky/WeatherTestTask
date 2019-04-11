@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import Alamofire
 
 class LocationService : NSObject {
     
@@ -40,6 +41,13 @@ class LocationService : NSObject {
         self.completion = completion
         manager.startUpdatingLocation()
     }
+}
+
+//MARK: Internet
+func checkIsInternetEnabled(showMessage: Bool = true) -> Bool {
+    let manager = NetworkReachabilityManager(host: "www.apple.com")
+    
+    return (manager?.isReachable)!
 }
 
 extension LocationService : CLLocationManagerDelegate {

@@ -50,7 +50,7 @@ class MainViewController: UIViewController {
         if checkIsInternetEnabled() {
             view.loadingIndicator(true)
             viewModel.loadCitiesFromWeb {[weak self] (error) in
-                self?.view.loadingIndicator(false)
+                self?.view.loadingIndicator(!UserDefaults.standard.bool(forKey: UserDefaultsConstants.kCitiesDbIsInitialized))
                 if let error = error {
                     self?.handleError(error, completion: nil)
                     self?.offlineMode()
@@ -100,38 +100,54 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(internetAvailable),
-            name: NSNotification.Name(NotificationsConstants.kNotificationInternetAvailable),
+            name: NSNotification.Name(NotificationsConstants.kInternetAvailableNotification),
             object: nil)
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(internetDisabled),
-            name: NSNotification.Name(NotificationsConstants.kNotificationInternetDisabled),
+            name: NSNotification.Name(NotificationsConstants.kInternetDisabledNotification),
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(internetAvailable),
+            name: NSNotification.Name(NotificationsConstants.kCitiesDbInitializedNotification),
             object: nil)
         
     }
     
     @objc func internetAvailable() {
-        addButton.isEnabled = true
+        setupAddButton()
         getCurrentCity()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
-            self.getCities()
-        })
     }
     
     @objc func internetDisabled() {
-        addButton.isEnabled = false
+        setupAddButton()
+    }
+    
+    //MARK: - UI
+    @objc func setupAddButton() {
+        if UserDefaults.standard.bool(forKey: UserDefaultsConstants.kCitiesDbIsInitialized) && checkIsInternetEnabled() {
+            addButton.isEnabled = true
+        } else {
+            addButton.isEnabled = false
+        }
     }
     
     //MARK: - Locations
     @objc func getCurrentCity() {
-        guard !UserDefaults.standard.bool(forKey: UserDefaultsConstants.kIsCurrentCityWasSet), checkIsInternetEnabled() else {
+        guard checkIsInternetEnabled() else {
+            return
+        }
+        guard !UserDefaults.standard.bool(forKey: UserDefaultsConstants.kIsCurrentCityWasSet) else {
+            getCities()
             return
         }
         
         view.loadingIndicator(true)
         viewModel.getLocation {[weak self] (error) in
-            self?.view.loadingIndicator(false)
+            self?.view.loadingIndicator(!UserDefaults.standard.bool(forKey: UserDefaultsConstants.kCitiesDbIsInitialized))
             if let error = error {
                 self?.handleError(error, completion: nil)
             } else {
@@ -145,8 +161,14 @@ class MainViewController: UIViewController {
     @objc func locationPermissionFailed() {
         presentLocationAlert(title: "", message: "Application can't get current location without permission, please turn it ON.") { (status) in
             if status {
-                if let url = URL(string: "App-Prefs:root=Privacy&path=LOCATION") {
-                    UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                    return
+                }
+                
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                        
+                    })
                 }
             }
         }
@@ -180,8 +202,4 @@ extension MainViewController: CountryPickerViewDelegate {
         let selectedCountryCode = country.code
         performSegue(withIdentifier: "SearchCityTableViewControllerSegue", sender: selectedCountryCode)
     }
-}
-
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

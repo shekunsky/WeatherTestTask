@@ -12,6 +12,7 @@ extension Date {
     func dayOfWeek() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         return dateFormatter.string(from: self).capitalized
     }
 }

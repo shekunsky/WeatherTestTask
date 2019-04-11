@@ -8,7 +8,6 @@
 
 import Foundation
 import RealmSwift
-import Alamofire
 
 //REALM config
 var realmConfiguration: Realm.Configuration = {
@@ -46,21 +45,29 @@ func deleteAllCities() {
 }
 
 func FillCitiesDbFrom(_ arrayOfStruct: [CitiesListStruct]) {
-    deleteAllCities()
-    let realm = initRealm()
-    var cities = [CitiesList]()
-    for city in arrayOfStruct {
-        let newCity = CitiesList()
-        newCity.cityId = String(city.cityId)
-        newCity.country = city.country
-        newCity.name = city.name
+    DispatchQueue.global(qos: .default).async {
+        deleteAllCities()
+        let realm = initRealm()
+        var cities = [CitiesList]()
+        for city in arrayOfStruct {
+            let newCity = CitiesList()
+            newCity.cityId = String(city.cityId)
+            newCity.country = city.country
+            newCity.name = city.name
+            
+            cities.append(newCity)
+        }
         
-       cities.append(newCity)
+        try! realm.write {
+            realm.add(cities)
+        }
+        DispatchQueue.main.async {
+            UserDefaults.standard.set(true, forKey: UserDefaultsConstants.kCitiesDbIsInitialized)
+            UserDefaults.standard.synchronize()
+            NotificationCenter.default.post(name: Notification.Name(NotificationsConstants.kCitiesDbInitializedNotification), object: nil)
+        }
     }
     
-    try! realm.write {
-        realm.add(cities)
-    }
 }
 
 func getCitiesForCountry(code: String) -> [CitiesListStruct] {
@@ -287,11 +294,4 @@ func deleteWeatherByHoursForCity(id: String) {
     try! realm.write {
         realm.delete(listOfWeatherByHoursForCity)
     }
-}
-
-//MARK: Internet
-func checkIsInternetEnabled(showMessage: Bool = true) -> Bool {
-    let manager = NetworkReachabilityManager(host: "www.apple.com")
-    
-    return (manager?.isReachable)!
 }

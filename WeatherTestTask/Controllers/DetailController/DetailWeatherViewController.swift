@@ -121,13 +121,13 @@ class DetailWeatherViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(internetAvailable),
-            name: NSNotification.Name(NotificationsConstants.kNotificationInternetAvailable),
+            name: NSNotification.Name(NotificationsConstants.kInternetAvailableNotification),
             object: nil)
         
     }
     
     func removeNotificationsObserver() {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name(NotificationsConstants.kNotificationInternetAvailable), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(NotificationsConstants.kInternetAvailableNotification), object: nil)
     }
     
     @objc func internetAvailable() {

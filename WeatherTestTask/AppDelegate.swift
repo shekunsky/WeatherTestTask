@@ -40,13 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Reachable via Cellular")
             }
             DispatchQueue.main.async{
-                NotificationCenter.default.post(name: Notification.Name(NotificationsConstants.kNotificationInternetAvailable), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(NotificationsConstants.kInternetAvailableNotification), object: nil)
             }
         }
         reachability.whenUnreachable = { _ in
             print("Not reachable")
             DispatchQueue.main.async{
-                NotificationCenter.default.post(name: Notification.Name(NotificationsConstants.kNotificationInternetDisabled), object: nil)
+                NotificationCenter.default.post(name: Notification.Name(NotificationsConstants.kInternetDisabledNotification), object: nil)
             }
         }
         
