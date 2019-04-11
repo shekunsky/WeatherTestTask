@@ -114,7 +114,9 @@ class MainViewController: UIViewController {
     @objc func internetAvailable() {
         addButton.isEnabled = true
         getCurrentCity()
-        getCities()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+            self.getCities()
+        })
     }
     
     @objc func internetDisabled() {
@@ -159,7 +161,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(
             width: collectionView.bounds.width/3 - 2,
-            height: collectionView.bounds.width/3 - 2//110.0
+            height: collectionView.bounds.width/3 - 2
         )
     }
     

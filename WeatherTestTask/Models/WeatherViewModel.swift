@@ -135,24 +135,22 @@ extension WeatherViewModel {
                         UserDefaults.standard.set(String(result.id), forKey: UserDefaultsConstants.kCurrentLocalCityId)
                         UserDefaults.standard.synchronize()
                         if self?.weather == nil {
-                         
-                            self?.defaultCitiesArray = [String(result.id)]
+                            
+                            self?.addSelectedCity(id: String(result.id))
                             self?.loadCitiesFromWeb { (error) in
-                                self?.defaultCitiesArray = []
-                                self?.addSelectedCity(id: String(result.id))
                                 completion(error)
                             }
                         } else {
                             self?.weather?.list.append(result)
                             self?.addSelectedCity(id: String(result.id))
+                            updateWeatherFrom(list: (self?.weather!.list)!)
                         }
-
                     }
                     completion(error)
                 })
             }
             else {
-                completion(nil)
+                completion(NSError())
             }
         })
     }
